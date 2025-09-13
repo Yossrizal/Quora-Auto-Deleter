@@ -3,9 +3,9 @@
   const DEFAULT_MIN_NUMBER = 10;   // default minimal number
   const DEFAULT_MAX_TASKS = 5;     // default maksimal task
 
-  const DELAY_CLICK = 1200;        // delay 1 detik setelah setiap klik (overflow & hapus)
+  const DELAY_CLICK = 1200;        // delay 1,2 detik setelah setiap klik (overflow & hapus)
   const DELAY_CONFIRM = 4000;      // delay 4 detik setelah klik konfirmasi
-  const SCROLL_DELAY = 1000;        // delay setelah scroll ke elemen
+  const SCROLL_DELAY = 1000;       // delay setelah scroll ke elemen
 
   const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -15,6 +15,11 @@
 
   let MAX_TASKS = parseInt(prompt("Masukkan maksimal task (default = " + DEFAULT_MAX_TASKS + "):", DEFAULT_MAX_TASKS), 10);
   if (isNaN(MAX_TASKS)) MAX_TASKS = DEFAULT_MAX_TASKS;
+
+  // --- Mulai timer eksekusi --- //
+  const startTime = performance.now();
+
+  let successCount = 0; // counter berhasil
 
   try {
     const parents = document.querySelectorAll('.q-box.qu-pt--medium.qu-borderBottom');
@@ -92,14 +97,25 @@
       if (konfirmasiBtn) {
         konfirmasiBtn.click();
         console.log(`🚀 Clicked "Konfirmasi"`);
+        successCount++; // ✅ hitung berhasil
         await sleep(DELAY_CONFIRM);
       } else {
         console.warn(`⚠️ Tombol "Konfirmasi" tidak ditemukan.`);
       }
     }
 
+    // --- Hitung total waktu eksekusi --- //
+    const endTime = performance.now();
+    const execTime = ((endTime - startTime) / 1000).toFixed(2);
+
     console.log("✅ Semua task selesai diproses.");
-    alert(`✅ Semua task selesai diproses!\nMin Number = ${MIN_NUMBER}\nMax Tasks = ${MAX_TASKS}`);
+    alert(
+      `✅ Semua task selesai diproses!\n` +
+      `Min Number = ${MIN_NUMBER}\n` +
+      `Max Tasks = ${MAX_TASKS}\n\n` +
+      `📌 Jumlah berhasil dihapus: ${successCount}\n` +
+      `⏱️ Waktu eksekusi: ${execTime} detik`
+    );
 
   } catch (e) {
     console.error("Error:", e);
