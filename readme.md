@@ -1,5 +1,6 @@
 # Quora Auto Deleter
 
+**Note:** This script is a temporary solution and hasn't been optimized or simplified yet.
 This project contains two scripts to help automate actions on your Quora profile page:
 
 ## Usage Instructions
