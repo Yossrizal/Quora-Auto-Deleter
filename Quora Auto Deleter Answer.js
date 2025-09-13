@@ -1,12 +1,20 @@
 (async () => {
-  // --- Inisialisasi variabel --- //
-  const MIN_NUMBER = 10;       // trigger hanya jika number < MIN_NUMBER
-  const DELAY_CLICK = 1000;     // delay 1 detik setelah setiap klik (overflow & hapus)
-  const DELAY_CONFIRM = 2000;   // delay 2 detik setelah klik konfirmasi
-  const SCROLL_DELAY = 800;     // delay setelah scroll ke elemen
-  const MAX_TASKS = 100;          // maksimal blok yang diproses (0 = unlimited)
+  // --- Default values --- //
+  const DEFAULT_MIN_NUMBER = 10;   // default minimal number
+  const DEFAULT_MAX_TASKS = 5;     // default maksimal task
+
+  const DELAY_CLICK = 1200;        // delay 1 detik setelah setiap klik (overflow & hapus)
+  const DELAY_CONFIRM = 4000;      // delay 4 detik setelah klik konfirmasi
+  const SCROLL_DELAY = 1000;        // delay setelah scroll ke elemen
 
   const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  // --- Prompt user input --- //
+  let MIN_NUMBER = parseInt(prompt("Masukkan minimal number (default = " + DEFAULT_MIN_NUMBER + "):", DEFAULT_MIN_NUMBER), 10);
+  if (isNaN(MIN_NUMBER)) MIN_NUMBER = DEFAULT_MIN_NUMBER;
+
+  let MAX_TASKS = parseInt(prompt("Masukkan maksimal task (default = " + DEFAULT_MAX_TASKS + "):", DEFAULT_MAX_TASKS), 10);
+  if (isNaN(MAX_TASKS)) MAX_TASKS = DEFAULT_MAX_TASKS;
 
   try {
     const parents = document.querySelectorAll('.q-box.qu-pt--medium.qu-borderBottom');
@@ -66,7 +74,9 @@
       const popoverItems = Array.from(document.querySelectorAll(
         '.q-click-wrapper.puppeteer_test_popover_item.c1nud10e.qu-p--medium.qu-px--medium.qu-py--small.qu-alignItems--center.qu-justifyContent--space-between.qu-display--flex.qu-bg--raised.qu-tapHighlight--white.qu-cursor--pointer.qu-hover--bg--darken.qu-hover--textDecoration--underline'
       ));
-      const hapusBtn = popoverItems.find(el => el.textContent.includes("Hapus jawaban"));
+      const hapusBtn = popoverItems.find(el =>
+        el.textContent.includes("Hapus jawaban") || el.textContent.includes("Hapus Kiriman")
+      );
       if (!hapusBtn) {
         console.warn(`⚠️ Tidak ada popover "Hapus jawaban" ditemukan.`);
         continue;
@@ -89,9 +99,10 @@
     }
 
     console.log("✅ Semua task selesai diproses.");
-    alert("✅ Semua task selesai diproses!"); // notifikasi browser
+    alert(`✅ Semua task selesai diproses!\nMin Number = ${MIN_NUMBER}\nMax Tasks = ${MAX_TASKS}`);
 
   } catch (e) {
     console.error("Error:", e);
+    alert("❌ Terjadi error: " + e.message);
   }
 })();
