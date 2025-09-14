@@ -80,7 +80,7 @@
         '.q-click-wrapper.puppeteer_test_popover_item.c1nud10e.qu-p--medium.qu-px--medium.qu-py--small.qu-alignItems--center.qu-justifyContent--space-between.qu-display--flex.qu-bg--raised.qu-tapHighlight--white.qu-cursor--pointer.qu-hover--bg--darken.qu-hover--textDecoration--underline'
       ));
       const hapusBtn = popoverItems.find(el =>
-        el.textContent.includes("Hapus jawaban") || el.textContent.includes("Hapus Kiriman")
+        el.textContent.includes("Hapus jawaban") || el.textContent.includes("Hapus kiriman")
       );
       if (!hapusBtn) {
         console.warn(`⚠️ Tidak ada popover "Hapus jawaban" ditemukan.`);
